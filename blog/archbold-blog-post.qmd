@@ -1,0 +1,31 @@
+---
+title: "Reproducibility analysis: Archbold et al. (2024) "
+subtitle: "Assessing the reproducibility of a public health agent-based model "
+date: "03/28/2025"
+author: "Tom Slater"
+format: html
+editor: visual
+theme: flatly
+title-block-banner: true
+categories: [analysis, reproducibility, python]
+---
+
+Conducting a reproducibility analysis of a computational model can be a useful exercise. From a purely technical standpoint it offers a chance to explore some cutting-edge computational methods and learn how they work. In the interest of open science, it can also give some insight into what might make research reproducible or not. Both such outcomes motivated me to assess the reproducibility of a paper looking at agent-based simulation in a public health context. This article details my findings.
+
+The original paper is cited below.
+
+::: {.callout-note icon="false"}
+### Reference
+
+J. Archbold, S. Clohessy, D. Herath, N. Griffiths and O. Oyebode, An Agent-Based Model of the Spread of Behavioural Risk-Factors for Cardiovascular Disease in City-Scale Populations, PLoS ONE, 19(5): e0303051, 2024. <https://doi.org/10.1371/journal.pone.0303051>
+:::
+
+The original model code can be found on GitHub (see below).
+
+::: {.callout-note icon="false"}
+### Source Code
+
+J. Archbold, S. Clohessy, D. Herath, N. Griffiths and O. Oyebode, CVD-Agent-Based-Model, 2024. <https://github.com/nathangriffiths/CVD-Agent-Based-Model.git>
+:::
+
+***Time to read:** x minutes*
