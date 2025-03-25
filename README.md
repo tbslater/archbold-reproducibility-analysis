@@ -1,8 +1,8 @@
 # Reproducibility analysis: Archbold et al. (2024)
 
-This repository documents a reproducibility analysis of Archbold etb al., 2024. The original paper used agent-based modelling to investigate the spread of cardiovascular disease risk factors within a social network. Workplace interventions targetting diet and inactivity were simulated. See the reference below.  
+This repository documents a reproducibility analysis of Archbold et al., 2024. The original paper used agent-based modelling to investigate the spread of cardiovascular disease risk factors within a social network. Workplace interventions targeting diet and inactivity were simulated. See the reference below.  
 
-> J. Archbold, S. Clohessy, D. Herath, N. Griffiths and O. Oyebode, An Agent-Based Model of the Spread of Behavioural Risk-Factors for Cardiovascular Disease in City-Scale Populations, PLoS ONE, 19(5): e0303051, 2024.>
+> J. Archbold, S. Clohessy, D. Herath, N. Griffiths and O. Oyebode, An Agent-Based Model of the Spread of Behavioural Risk-Factors for Cardiovascular Disease in City-Scale Populations, PLoS ONE, 19(5): e0303051, 2024.
 
 Original source code can be found at <https://github.com/nathangriffiths/CVD-Agent-Based-Model.git>
 
