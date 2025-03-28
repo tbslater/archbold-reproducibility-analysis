@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Conducting a reproducibility analysis of a computational model can be a useful exercise. From a purely technical standpoint it offers a chance to explore some cutting-edge computational methods and learn how they work. In the interest of open science, it can also give some insight into what might make research reproducible or not. Both such outcomes motivated me to assess the reproducibility of a paper looking at agent-based simulation in a public health context. This article details my findings.</p>
+<p>Conducting a reproducibility analysis of a computational model can be a useful exercise. From a purely technical standpoint it offers a chance to explore some cutting-edge methods and learn how they work. In the interest of open science, it can also give some insight into what can go right and wrong with reproducibility. Both such outcomes were motivation for this particular blog post: a reproducibility analysis of agent-based simulation in healthcare [1]. Read on to see my findings.</p>
 <p><a href="https://doi.org/10.1371/journal.pone.0303051">Check out the original article here!</a></p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -98,46 +98,47 @@ Reference
 <p>J. Archbold, S. Clohessy, D. Herath, N. Griffiths and O. Oyebode, An Agent-Based Model of the Spread of Behavioural Risk-Factors for Cardiovascular Disease in City-Scale Populations, PLoS ONE, 19(5): e0303051, 2024. <a href="https://doi.org/10.1371/journal.pone.0303051" class="uri">https://doi.org/10.1371/journal.pone.0303051</a></p>
 </div>
 </div>
-<p><em><strong>Time to read:</strong> x minutes</em></p>
+<p><em><strong>Time to read:</strong> 9 minutes</em></p>
 <section id="what-is-agent-based-modelling" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-agent-based-modelling">WHAT IS AGENT-BASED MODELLING?</h2>
-<p>Agent-based modelling (ABM), or agent-based simulation, is a computational model used in complex systems. More specifically, it is a modelling approach used to capture emergent behaviour, allowing for unexpected changes within a system to occur. This makes ABM effective when modelling systems with heavy social interaction and is thus a popular method for social science applications. Emergent behaviour is captured through the explicit modelling of individual, possibly heterogeneous agents, which can learn, interact and make decisions at each discrete time step. This focus on individual behaviour makes ABM a bottom-up approach to complex systems modelling. ABM agents may differ to other computational models in that they are autonomous, interactive and malleable (Secchi, 2022). They possess autonomy in that they have their own individual characteristics and decide their own behaviour based upon them, though not with complete independence from other agents. Interaction occurs between agents that is capable of shaping their behaviour; that is, they are malleable. Modelling individuals can unfortunately lead to high computational expense for some agent-based models, particularly for large populations of agents. Nonetheless, ABM remains a popular and flexible choice in complex systems modelling.</p>
+<p>Agent-based modelling (ABM), or agent-based simulation, is a computational method used in complex systems modelling. More specifically, it is a modelling approach used to capture emergent behaviour [2,3], allowing for unexpected changes within a system to be accounted for. This makes ABM effective when modelling systems with some degree of social interaction [3] and is thus a popular method in the field of social science. Emergent behaviour is captured through the explicit modelling of individual, possibly heterogeneous agents, which can learn, interact and make decisions at each discrete time step. This focus on individual behaviour makes ABM a bottom-up approach to complex systems modelling [2].</p>
+<p>ABM agents may differ to other computational models in that they are autonomous, interactive and malleable [3]. They possess autonomy in that they have their own individual characteristics and decide their own behaviour based upon them, though not with complete independence from other agents. Some interaction may occur between agents that is capable of shaping their behaviour; that is, they are malleable. Modelling individuals can unfortunately lead to high computational expense for some agent-based models [4], particularly for large populations of agents. Nonetheless, ABM remains a popular and flexible choice in complex systems modelling.</p>
 </section>
 <section id="the-model" class="level2">
 <h2 class="anchored" data-anchor-id="the-model">THE MODEL</h2>
-<p>Archbold et al.&nbsp;were interested in how cardiovascular disease (CVD) risk factors spread through social networks and the impact it can have on CVD incidence within the population. They utilised an ABM to examine this and to trial areas for potential intervention. Four risk factors were identified, namely diet, inactivity, smoking and alcohol intake. For full model details, <a href="https://doi.org/10.1371/journal.pone.0303051">please refer to their paper</a>, but I will briefly introduce their work in this section.</p>
+<p>Archbold et al.&nbsp;were interested in how cardiovascular disease (CVD) risk factors spread through social networks and the impact that it can have on CVD incidence within the population [1]. They utilised an ABM to examine this and to trial areas for potential intervention. Four risk factors were identified, namely diet, inactivity, smoking and alcohol intake. For full model details, <a href="https://doi.org/10.1371/journal.pone.0303051">please refer to their paper</a>, but I will briefly introduce their work in this section.</p>
 <p>In general, agents were generated to represent a city similar in size to Coventry, England, though the model is scalable up to a city as large as Birmingham, England. Agents were randomly assigned age (minimum of 18 years), sex, socioeconomic status, risk factor level attributes and a threshold for behavioural change and social networks were formed via four relationships: marriage, household, friendship and workplace. Risk factor levels took the value 0, 1 or 2 according to criteria summarised in the table below. Then, for each risk factor at each level, an influence strength value between 0 and 1 was determined for each relationship. The baseline scenarios assumed no workplace influence to exist (i.e.&nbsp;a value of 0). Non-zero workplace influences were only introduced for the intervention scenarios, to represent the potential for workplace policy tackling diet and inactivity.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/table1.png" class="img-fluid figure-img"></p>
-<figcaption>Table 1</figcaption>
+<figcaption>Table 1 taken from Archbold et al.&nbsp;[1]</figcaption>
 </figure>
 </div>
-<p>At each discrete time step in the model, total influence for each agent was summed up and compared to their individual threshold for change. If the threshold was exceeded, then the agent was moved to the respective risk factor level. Otherwise, it remained stagnant. Then, a risk of developing CVD was determined using a simplified version of an existing algorithm. Simulations were run for a total of 10 time steps, each time step representing a year, and 100 unseeded repeats were performed.</p>
-<p>The model was implemented in Python and all original source code can be accessed <a href="https://github.com/nathangriffiths/CVD-Agent-Based-Model.git">here</a> under a GPL-3.0 license. The GitHub repository contains two folders with data to inform the model for workplaces of mean size 4 and 21. There are also four <code>.py</code> files with the code required to run the simulations. I generally found the code to be very self-explanatory and readily usable. To create the model’s social network the package <code>networkx</code> was used; documentation can be found <a href="https://networkx.org/documentation/stable/reference/index.html">here</a>.</p>
-<p>Key results in the paper were identified to be table 3 (baseline results), table 4 and figure 1 (model calibration), table 5 (sensitivity analysis), figure 2 (model scalability) and table 6 (intervention results). The next section documents my attempts to reproduce each.</p>
+<p>At each discrete time step in the model, total influence for each agent was summed up and compared to their individual threshold for change. If the threshold was exceeded, then the agent was moved to the respective risk factor level. Otherwise, it remained at the same level. Then, a risk of developing CVD was determined using a simplified version of an existing algorithm. Simulations were run for a total of 10 time steps, each time step representing a year, and 100 unseeded repeats were performed.</p>
+<p>The model was implemented in Python and all original source code can be accessed <a href="https://github.com/nathangriffiths/CVD-Agent-Based-Model.git">here</a> under a GPL-3.0 license. The GitHub repository contains two folders with data to inform the model for workplaces of mean size 4 and 21. There are also four <code>.py</code> files with the code required to run the simulations. I generally found the code to be self-explanatory and readily usable. To create the model’s social network the package <code>networkx</code> was used; documentation can be found <a href="https://networkx.org/documentation/stable/reference/index.html">here</a> [5].</p>
+<p>Key results in the paper were identified to be table 3 (baseline results), figure 1 (model calibration), table 5 (sensitivity analysis), figure 2 (model scalability) and table 6 (intervention results). The next section documents my attempts to reproduce each.</p>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">RESULTS</h2>
 <p><strong>BASELINE: TABLE 3</strong></p>
 <p>The results from baseline testing from the original paper are given below.</p>
-<p><img src="images/table3.png" class="img-fluid" alt="Table 3">I attempted to reproduce these results, though due to the large computational demand from the model, only 10 simulation repeats were performed. Matching values were therefore not expected. Looking at the values I obtained, some consistency has been achieved. There does appear to be a slight shift to higher CVD rates across the board, but it is unclear whether this is due to randomness.</p>
+<p><img src="images/table3.png" class="img-fluid" alt="Table 3 taken from Archbold et al.&nbsp;[1]">I attempted to reproduce these results, though due to the large computational demand from the model, only 10 simulation repeats were performed. Matching values were therefore not expected. Looking at the values I obtained, some consistency has been achieved. There does appear to be a slight shift to higher CVD rates across the board, but it is unclear whether this is due to randomness.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/table3_reproduced.png" class="img-fluid figure-img"></p>
-<figcaption>Table 3 reproduced</figcaption>
+<figcaption>A reproduction of table 3 from Archbold et al.&nbsp;[1]</figcaption>
 </figure>
 </div>
-<p><strong>CALIBRATION: TABLE 4 AND FIGURE 1</strong></p>
-<p>Calibration of the model was tested by comparing rates obtained by Hippisley et al.&nbsp;to the model rates. The original resulting table and plot are presented below.</p>
-<p><img src="images/figure1.png" class="img-fluid" alt="Figure 1">As before, my results are the output of only 10 simulation repeats and so may differ from the original slightly. Nonetheless, clear consistency has been achieved. We see a similar pattern between the graphs, albeit higher differences for the older age groups. <img src="images/figure1_reproduced.png" class="img-fluid" alt="Figure 1"></p>
+<p><strong>CALIBRATION: FIGURE 1</strong></p>
+<p>Calibration of the model was tested by comparing rates obtained by Hippisley et al.&nbsp;[6] to the model rates. The original resulting plot is shown below. I have chosen to omit table 4 as the results are captured in the figure itself.</p>
+<p><img src="images/figure1.png" class="img-fluid" alt="Figure 1">As before, my results are the output of only 10 simulation repeats and so may differ from the original. Nonetheless, clear consistency has been achieved. We see a similar pattern between the graphs, albeit higher differences for the older age groups. <img src="images/figure1_reproduced.png" class="img-fluid" alt="A reproduction of figure 1 from Archbold et al.&nbsp;[1]"></p>
 <p><strong>SENSITIVITY: TABLE 5</strong></p>
 <p>Sensitivity analysis was performed to see the effect of maximising influence from risk factors at levels 0 and 2. The results from the paper are summarised in the table below.</p>
-<p><img src="images/table5.png" class="img-fluid" alt="Table 3"> In the interest of computational time, I did not conduct any simulation repeats, so my results will be subject to randomness. The values I obtained do in general fall within the right bandwidth, evidencing some reproducibility. Rates obtained when maximising the influence for alcohol consumption do seem slightly high however.</p>
+<p><img src="images/table5.png" class="img-fluid" alt="Table 3">In the interest of computational time, I did not conduct any simulation repeats, so my results will be subject to randomness. The values I obtained do in general fall within the right bandwidth, evidencing some reproducibility. Rates obtained when maximising the influence for alcohol consumption do seem slightly high however.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/table5_reproduced.png" class="img-fluid figure-img"></p>
-<figcaption>Table 3</figcaption>
+<figcaption>A reproduction of table 5 from Archbold et al.&nbsp;[1]</figcaption>
 </figure>
 </div>
 <p><strong>SCALABILITY: FIGURE 2</strong></p>
@@ -146,18 +147,18 @@ Reference
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/figure2_reproduced.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 2</figcaption>
+<figcaption>A reproduction of figure 2 from Archbold et al.&nbsp;[1]</figcaption>
 </figure>
 </div>
 <p><strong>INTERVENTION: TABLE 6</strong></p>
 <p>The impact of exerting workplace influence for diet, inactivity and both risk factors was trialed in the paper for a range of adoption rates (i.e.&nbsp;the proportion of workplaces involved in the intervention). The resulting table is shown below.</p>
-<p><img src="images/table6.png" class="img-fluid" alt="Table 6">As before, I attempted to reproduce the results of this table, but only performed one simulation for each scenario. Values were therefore not expected to match. This has possibly resulted in an unclear assessment of reproducibility, as some values are fairly out and the general conclusions from the data have not been captured. I have still achieved the lower rates for 100% adoption with both risk factors as seen in the paper, but across the board there are some inconsistencies. <img src="images/table6_reproduced.png" class="img-fluid" alt="Table 6"></p>
+<p><img src="images/table6.png" class="img-fluid" alt="Table 6">Again, no simulation repeats were performed for this table. Values were therefore not expected to match. This has possibly resulted in an unclear assessment of reproducibility, as some values are fairly out and the general conclusions from the data have not been captured. I have still achieved lower rates for 100% adoption with both risk factors, as seen in the paper, but across the board there are some inconsistencies. <img src="images/table6_reproduced.png" class="img-fluid" alt="A reproduction of table 6 from Archbold et al.&nbsp;[1]"></p>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">DISCUSSION</h2>
-<p>This article documents my attempts to reproduce the work of Archbold et al.&nbsp;The paper was a particularly good example of agent-based modelling in healthcare and evident care was taken to ensure others could learn from their work. It was my general finding that their work was indeed reproducible, or at least would have been with sufficient simulation repeats.</p>
+<p>This article documents my attempts to reproduce the work of Archbold et al [1]. The paper was a particularly good example of agent-based modelling in healthcare and evident care was taken to ensure others could learn from their work. It was my general finding that their work was indeed reproducible, or at least would have been with sufficient simulation repeats.</p>
 <p><strong>WHAT MADE THE WORK REPRODUCIBLE?</strong></p>
-<p>The provision of code under a GPL-3.0 licence itself was a good first step. This meant that I had access to their code and was free to use it. Without this, reproducibility would have fallen at the first hurdle. The programming language was also a positive; Python is free and open source software, which is always desirable where reproducible research is concerned. Following on from this, the code supplied actually ran without modification and was clearly organised, both within the repository and within the files themselves. Informative comments, self-explanatory variable, class and function names and the inclusion of a README.md file ensured quick and thorough comprehension. Aside from the code, the paper also clearly documented steps taken. It was easy to understand the purpose of the paper and what the results showed.</p>
+<p>The provision of code under a GPL-3.0 licence itself was a good first step. This meant that I had access to their code and was free to use it. Without this, reproducibility would have fallen at the first hurdle. The programming language was also a positive; Python is free and open source software, which is always desirable where reproducible research is concerned. Following on from this, the code supplied actually ran without modification and was clearly organised, both within the repository and within the files themselves. Informative comments, self-explanatory variable, class and function names and the inclusion of a README file ensured quick and thorough comprehension. Aside from the code, the paper also clearly documented steps taken. It was easy to understand the purpose of the paper and what the results showed.</p>
 <p>My reproducibility analysis therefore stressed the importance of the following to me:</p>
 <ul>
 <li><p>Model code should be provided (e.g.&nbsp;on GitHub) with a licence and a README file;</p></li>
@@ -168,9 +169,9 @@ Reference
 </ul>
 <p><strong>WHAT CHALLENGES DID I FACE?</strong></p>
 <p>The biggest issue was the computational demand of the model. In order to fully assess reproducibility, I would have needed to run 100 simulation repeats for each scenario, but this would have taken a great deal of time. There was therefore a fair degree of randomness in my results which made it difficult to compare to the original set. It would have been useful if one seeded simulation was specified in the author’s GitHub repository as an example, so that code could be checked in a reasonable amount of time and without the need for running lots of simulation repeats.</p>
-<p>Another challenge I faced was with simulation of the intervention scenario. Whilst the conditions were well-explained in the paper, code to implement it was not provided and it was not straightforward how to do this with the existing code. I therefore spent time modifying it in order to run the intervention simulations. This was not too difficult, however, and so was not overly problematic. Nonetheless, code to run the intervention scenario would have been useful.</p>
+<p>Another challenge I faced was with simulation of the intervention scenario. Whilst the conditions were well-explained in the paper, code to implement it was not provided and it was not straightforward how to do this with the existing code. I spent time modifying their code in order to run the intervention simulations. This was not too difficult, but code to run the intervention scenario would have saved time and given me more confidence in my results.</p>
 <p>Finally, whilst this is more of a comment than a challenge, it would have been good practice if python packages were explicitly stated. I created a virtual environment with packages dated around the same time as paper publication and this was fine to run the code, but knowing the exact package versions would have been helpful.</p>
-<p>In summary, I recommend the following steps for computational reproducibility:</p>
+<p>In summary, I recommend the following additional steps for computational reproducibility:</p>
 <ul>
 <li><p>For computationally expensive models, provide output of a single seeded simulation for quick checking;</p></li>
 <li><p>Attach code for all simulation scenarios;</p></li>
@@ -179,6 +180,17 @@ Reference
 <p><strong>FINAL REMARKS</strong></p>
 <p>I would firstly like to commend the authors of the paper for a strong piece of research and for what I found to be largely reproducible. I would also like to state that the intention of this article is not to criticise their work, but merely provide some insight into the current state of computational reproducibility. Lastly, I wish to state that these are my own findings and that others may reach different conclusions. A more rigorous reproducibility analysis should incorporate several individual attempts from different researchers.</p>
 <p>As a final note, all code used in this article has been uploaded to GitHub <a href="https://github.com/tbslater/archbold-reproducibility-analysis">here</a>. Be sure to check it out and I of course welcome any feedback you may have. Email me on tbs204@exeter.ac.uk to get in touch or do reach out on <a href="www.linkedin.com/in/thomas-slater-140107215">LinkedIn</a>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">REFERENCES</h2>
+<ol type="1">
+<li>Archbold J, Clohessy S, Herath D, Griffiths N, Oyebode O. An agent-based model of the spread of behavioural risk-factors for cardiovascular disease in city-scale populations. PLOS ONE. 2024;19(5):e0303051.</li>
+<li>Eldabi T, editor Systemic Characteristics to Support Hybrid Simulation Modeling. 2021 Winter Simulation Conference (WSC); 2021 12-15 Dec.&nbsp;2021.</li>
+<li>Secchi D. How do I develop an agent-based model? Northampton, Massachusetts: Edward Elgar Publishing; 2022.</li>
+<li>Chimeh MK, Richmond P. Simulating heterogeneous behaviours in complex systems on GPUs. Simulation Modelling Practice and Theory. 2018;83:3-17.</li>
+<li>NetworkX. 2024. [Available from: <a href="https://networkx.org/documentation/stable/reference/index.html." class="uri">https://networkx.org/documentation/stable/reference/index.html.</a>]</li>
+<li>Hippisley-Cox J, Coupland C, Brindle P. Development and validation of QRISK3 risk prediction algorithms to estimate future risk of cardiovascular disease: prospective cohort study. BMJ. 2017;357:j2099.</li>
+</ol>
 </section>
 
 </main>
