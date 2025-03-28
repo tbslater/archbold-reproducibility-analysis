@@ -7,8 +7,8 @@ format: html
 editor: visual
 theme: flatly
 title-block-banner: true
-categories: [analysis, reproducibility, python]
-image: "images/figure1"
+categories: [Analysis, Reproducibility, Python]
+image: "images/figure1.png"
 ---
 
 Conducting a reproducibility analysis of a computational model can be a useful exercise. From a purely technical standpoint it offers a chance to explore some cutting-edge methods and learn how they work. In the interest of open science, it can also give some insight into what can go right and wrong with reproducibility. Both such outcomes were motivation for this particular blog post: a reproducibility analysis of agent-based simulation in healthcare \[1\]. Read on to see my findings.
