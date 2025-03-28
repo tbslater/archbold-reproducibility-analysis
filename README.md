@@ -25,6 +25,6 @@ The data to inform the model is stored in `/parameters` and contains information
 
 ## Article
 
-The results of my reproducibility analysis are documented in a blog post [here]().
+The results of my reproducibility analysis are documented in a blog post [here](https://tbslater.github.io/public-health-simulation/posts/reproducing-archbold-et-al/archbold-blog-post.html).
 
 ## Citation
