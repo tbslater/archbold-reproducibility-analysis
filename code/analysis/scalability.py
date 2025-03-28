@@ -42,7 +42,7 @@ for N in pop_sizes:
     mod = run_simulation(N, 10)
     incident_rates[N] = obtain_incident_rates(mod)
 
-    print('Iteration {}K complete'.format(N))
+    print('Iteration {}K complete'.format(N/1000))
 
 male_ir = []
 female_ir = []
@@ -50,8 +50,16 @@ for i in pop_sizes:
     male_ir.append(incident_rates[i]['Male'])
     female_ir.append(incident_rates[i]['Female'])
 
-plt.plot(pop_sizes/1000, female_ir, ':o', label = "Women", color = 'orange')
-plt.plot(pop_sizes/1000, male_ir, '--+', label = "Men", color = 'teal')
+male_ir.insert(2, male_ir.pop(0))
+print(male_ir)
+female_ir.insert(2, female_ir.pop(0))
+print(female_ir)
+x = list(pop_sizes)
+x.insert(2, x.pop(0))
+y = np.array(x)
+
+plt.plot(y/1000, female_ir, ':o', label = "Women", color = 'orange')
+plt.plot(y/1000, male_ir, '--+', label = "Men", color = 'teal')
 plt.legend()
 plt.xlabel('Population size (1000s)')
 plt.ylabel('Mean Incident Rate')
