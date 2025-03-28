@@ -142,3 +142,79 @@ for i in range(len(names)):
 
 print_simulation_metrics(averages['cases_m'], averages['cases_f'], averages['years_m'], 
                          averages['years_f'], averages['rate_m'], averages['rate_f'])
+
+# Hippisley-Cox rates
+hipp_cox_f = np.array([0.24,0.49,1.02,1.90,3.20,4.83,7.47,11.36,17.13,25.08,35.11,48.02,6.19])
+hipp_cox_m = np.array([0.40,0.99,2.12,3.99,6.65,9.86,14.18,19.69,26.55,35.48,45.16,58.29,8.18])
+
+# Calculate differences
+model_rates_f = np.append(averages['rate_f'], # by age
+                          np.array((sum(averages['cases_f']) / (sum(averages['years_f']) / 1000)))) # total
+model_rates_f = np.append(averages['rate_m'], # by age
+                          np.array((sum(averages['cases_m']) / (sum(averages['years_m']) / 1000)))) # total
+diff_f = model_rates_f - hipp_cox_f
+diff_m = model_rates_m - hipp_cox_m
+
+# Print the rates
+def rates_table(hipp_cox_f, hipp_cox_m, model_rates_f, model_rates_m):
+    '''
+    FUNCTION TO PRINT THE RATES IN A FORMAT SIMILAR TO TABLE 4
+
+    PARAMS: 
+    hipp_cox_f: female Hippisley-Cox et al. rates [np.array]
+    hipp_cox_m: male Hippisley-Cox et al. rates   [np.array]
+    model_rates_f: female simulation model rates [np.array]
+    model_rates_m: male simulation model rates [np.array]
+    '''
+    
+    age_bins = ['25-29', '30-34', '35-39', '40-44', '45-49', '50-54', \
+      '55-59', '60-64', '65-69', '70-74', '75-79', '80-84']
+    
+    # Print female simulation metrics 
+    print('Women:')		
+    print('age group', '\t', 'Hippisley-Cox et al. Observed Rate', '\t', 'Modelled Rate', '\t', 'Difference')
+    for age in range(len(age_bins)):
+        print(age_bins[age], '\t\t', hipp_cox_f[age], '\t\t', model_rates_f[age], '\t\t', diff_f[age])
+    total_hipp_f = round(sum(hipp_cox_f),4)
+    total_model_f = round(sum(model_rates_f),4)
+    print('total', '\t\t', total_hipp_f, '\t\t', total_model_f, '\t\t', "{:.2f}".format(round((total_model_f - total_hipp_f),4)))
+    print()
+    
+    # Print male simulation metrics 
+    print('Men:')		
+    print('age group', '\t', 'Hippisley-Cox et al. Observed Rate', '\t', 'Modelled Rate', '\t', 'Difference')
+    for age in range(len(age_bins)):
+        print(age_bins[age], '\t\t', hipp_cox_m[age], '\t\t', model_rates_m[age], '\t\t', diff_m[age])
+    total_hipp_m = round(sum(hipp_cox_m),4)
+    total_model_m = round(sum(model_rates_m),4)
+    print('total', '\t\t', total_hipp_m, '\t\t', total_model_m, '\t\t', "{:.2f}".format(round((total_model_m - total_hipp_m),4)))
+    print()
+
+rates_table(hipp_cox_f, hipp_cox_m, model_rates_f, model_rates_m)
+
+# Produce figure 1
+age_bins = ['25-29', '30-34', '35-39', '40-44', '45-49', '50-54', \
+            '55-59', '60-64', '65-69', '70-74', '75-79', '80-84']
+
+diffs_by_sex = {
+    'Women': diff_f[range(len(age_bins))].tolist(),
+    'Men': diff_m[range(len(age_bins))].tolist()
+}
+
+x = np.arange(len(age_bins))  # the label locations
+width = 0.4  # the width of the bars
+multiplier = 0
+
+fig, ax = plt.subplots(layout='constrained')
+
+for sex, value in diffs_by_sex.items():
+    offset = width * multiplier
+    rects = ax.bar(x + offset, value, width, label=sex)
+    multiplier += 1
+
+# Add some text for labels, title and custom x-axis tick labels, etc.
+ax.set_ylabel('Difference in Mean Incident Rate')
+ax.set_xticks(x + width, age_bins)
+ax.legend(loc='upper left', ncols=1)
+
+plt.show()
