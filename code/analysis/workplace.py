@@ -1,17 +1,16 @@
 # Code to reproduce table 6
 
-# Import files 
+import random
+import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 import agent 
 import network 
 import parameters
 import intervention
-
-# Import packages
-import numpy as np
-import random
-import time
-import matplotlib.pyplot as plt
-import pandas as pd
 
 def assign_intervention(agents, adoption):
     '''

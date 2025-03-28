@@ -39,7 +39,7 @@ At each discrete time step in the model, total influence for each agent was summ
 
 The model was implemented in Python and all original source code can be accessed [here](https://github.com/nathangriffiths/CVD-Agent-Based-Model.git) under a GPL-3.0 license. The GitHub repository contains two folders with data to inform the model for workplaces of mean size 4 and 21. There are also four `.py` files with the code required to run the simulations. I generally found the code to be very self-explanatory and readily usable. To create the model's social network the package `networkx` was used; documentation can be found [here](https://networkx.org/documentation/stable/reference/index.html) \[5\].
 
-Key results in the paper were identified to be table 3 (baseline results), table 4 and figure 1 (model calibration), table 5 (sensitivity analysis), figure 2 (model scalability) and table 6 (intervention results). The next section documents my attempts to reproduce each.
+Key results in the paper were identified to be table 3 (baseline results), figure 1 (model calibration), table 5 (sensitivity analysis), figure 2 (model scalability) and table 6 (intervention results). The next section documents my attempts to reproduce each.
 
 ## RESULTS
 
@@ -51,9 +51,9 @@ The results from baseline testing from the original paper are given below.
 
 ![A reproduction of table 3 from Archbold et al. \[1\]](images/table3_reproduced.png)
 
-**CALIBRATION: TABLE 4 AND FIGURE 1**
+**CALIBRATION: FIGURE 1**
 
-Calibration of the model was tested by comparing rates obtained by Hippisley et al. \[6\] to the model rates. The original resulting table and plot are presented below.
+Calibration of the model was tested by comparing rates obtained by Hippisley et al. \[6\] to the model rates. The original resulting plot is shown below. I have chosen to omit table 4 as the results are captured in the figure itself.
 
 ![Figure 1](images/figure1.png)As before, my results are the output of only 10 simulation repeats and so may differ from the original slightly. Nonetheless, clear consistency has been achieved. We see a similar pattern between the graphs, albeit higher differences for the older age groups. ![A reproduction of figure 1 from Archbold et al. \[1\]](images/figure1_reproduced.png)
 

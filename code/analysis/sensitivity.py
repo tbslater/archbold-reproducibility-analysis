@@ -1,17 +1,16 @@
 # Code to reproduce table 5 from Archbold et al., 2024
 
-# Import files
+import random
+import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 import agent 
 import network 
 import parameters
 import spread
-
-# Import packages
-import numpy as np
-import random
-import time
-import matplotlib.pyplot as plt
-import pandas as pd
 
 def change_inf(level, risk = None, all_factors = True, pop_size = 350000):
     '''

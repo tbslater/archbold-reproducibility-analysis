@@ -1,20 +1,19 @@
-# Code to reproduce tables 3 and 4 and figure 1
+# Code to reproduce table 3 and figure 1
 
-# Import files
+import random
+import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 import agent 
 import network 
 import parameters
 import spread
 
-# Import packages 
-import numpy as np
-import random
-import time
-import matplotlib.pyplot as plt
-import pandas as pd
-
 def obtain_metrics(model):
-    '''
+    """
     FUNCTION TO OBTAIN METRICS FROM TABLE 3 IN ARCHBOLD ET AL., 2024
 
     PARAMS:
@@ -22,7 +21,7 @@ def obtain_metrics(model):
 
     OUTPUT:
     metrics: array of metric values [np.array]
-    '''
+    """
 
     # Age categories 
     age_bins = ['25-29', '30-34', '35-39', '40-44', '45-49', '50-54', \
@@ -112,12 +111,12 @@ def print_simulation_metrics(ic_m, ic_f, py_m, py_f, rate_m, rate_f):
     print()
 
 N = 10 # no. of simulation repeats
-pop_size = 350000 # population size
-horizon = 10 # years to simulate
+POP_SIZE = 350000 # population size
+HORIZON = 10 # years to simulate
 
 random.seed(0) # set seed for reproducibility
 
-metrics = obtain_metrics(run_simulation(pop_size, horizon)) # run sim.
+metrics = obtain_metrics(run_simulation(POP_SIZE, HORIZON)) # run sim.
 
 storage = {'cases_m': metrics[0], 'cases_f': metrics[1], 'years_m': metrics[2],
     'years_f': metrics[3], 'rate_m': metrics[4], 'rate_f': metrics[5]} # store metrics
@@ -127,7 +126,7 @@ names = ['cases_m', 'cases_f', 'years_m', 'years_f', 'rate_m', 'rate_f']
 for i in range(1,N): # for each repeat
 
     random.seed(i) # random seed
-    metrics = obtain_metrics(run_simulation(pop_size, horizon))
+    metrics = obtain_metrics(run_simulation(POP_SIZE, HORIZON))
 
     for j in range(len(names)): # for each metric
         storage[names[j]] = np.vstack((storage[names[j]], metrics[j]))

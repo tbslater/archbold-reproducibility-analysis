@@ -1,17 +1,16 @@
 # Code to reproduce figure 2
 
-# Import files
+import random
+import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 import agent 
 import network 
 import parameters
 import spread
-
-# Import packages
-import numpy as np
-import random
-import time
-import matplotlib.pyplot as plt
-import pandas as pd
 
 def obtain_incident_rates(model):
     '''
